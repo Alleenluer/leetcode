@@ -19,8 +19,8 @@ public:
             return 0;
         }
         
-        div1 = (long long int)dividend * s1;
-        div2 = (long long int)divisor * s2;
+        div1 = dividend > 0 ? dividend : -(long long int)dividend;
+        div2 = divisor > 0 ? divisor : -(long long int)divisor;
         
         base = div2;
         r = 1;
@@ -39,8 +39,15 @@ public:
             r >>= 1;
         }
         
+        if(s1 < 0){
+            res = -res;
+        }
+        if(s2 < 0){
+            res = -res;
+        }
+        
         // 1WA here, forgot to multiply sign variables
-        return res * s1 * s2;
+        return res;
     }
 private:
     int sign(int x){
