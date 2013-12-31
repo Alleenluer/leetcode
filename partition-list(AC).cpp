@@ -1,4 +1,4 @@
-// 1AC, one shot, one kill, YES!!!
+// 2RE, 1AC, always keep an eye out for nullptr!
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -12,32 +12,39 @@ public:
     ListNode *partition(ListNode *head, int x) {
         // IMPORTANT: Please reset any member data you declared, as
         // the same Solution instance will be reused for each test case.
-        ListNode *l1, *l2;
-        ListNode *r1, *r2;
+        ListNode *l1 = nullptr, *l2 = nullptr;
+		ListNode *h1 = nullptr, *h2 = nullptr;
         
-        r1 = new ListNode(0);
-        r2 = new ListNode(0);
-        
-        l1 = r1;
-        l2 = r2;
         while(head != nullptr){
             if(head->val < x){
-                l1->next = head;
+				if(h1 == nullptr){
+					h1 = l1 = head;
+				}else{
+					l1->next = head;
+					l1 = l1->next;
+				}
                 head = head->next;
-                l1 = l1->next;
                 l1->next = nullptr;
             }else{
-                l2->next = head;
+				if(h2 == nullptr){
+					h2 = l2 = head;
+				}else{
+					l2->next = head;
+					l2 = l2->next;
+				}
                 head = head->next;
-                l2 = l2->next;
                 l2->next = nullptr;
             }
         }
-        l1->next = r2->next;
-        head = r1->next;
-        delete r1;
-        delete r2;
-        
+        // 2RE here, note that h1 and h2 may be empty!
+        if(h1 == nullptr){
+            return h2;
+        }else if(h2 == nullptr){
+            return h1;
+        }
+        l1->next = h2;
+        head = h1;
+		
         return head;
     }
 };
