@@ -1,4 +1,4 @@
-// 1WA, 1AC, the first attemp is wrong, only works for perfect binary trees
+// 1WA, 1AC, the first attempt is wrong, only works for perfect binary trees
 /**
  * Definition for binary tree with next pointer.
  * struct TreeLinkNode {
