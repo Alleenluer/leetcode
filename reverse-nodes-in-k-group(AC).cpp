@@ -1,3 +1,4 @@
+// 1RE, 1AC, good.
 /**
  * Definition for singly-linked list.
  * struct ListNode {
