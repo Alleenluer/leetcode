@@ -26,8 +26,8 @@ public:
 		
 		return result;
     }
-	int lp;
 private:
+	int lp;
 	int lw;
 	vector<int> next;
 	
