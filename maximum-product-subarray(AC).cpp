@@ -1,3 +1,4 @@
+// 1AC, O(n) solution with O(n) space
 class Solution {
 public:
     int maxProduct(int A[], int n) {
