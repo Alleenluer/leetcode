@@ -1,9 +1,8 @@
-# My code looks ugly enough...
 class Solution:
     # @param {integer} numCourses
     # @param {integer[][]} prerequisites
-    # @return {boolean}
-    def canFinish(self, numCourses, prerequisites):
+    # @return {integer[]}
+    def findOrder(self, numCourses, prerequisites):
 		e = prerequisites
 		n = numCourses
 		
@@ -12,12 +11,11 @@ class Solution:
 		ec = len(e)
 		for i in xrange(ec):
 			g[e[i][1]].add(e[i][0])
-		ec = 0
 		for i in xrange(n):
 			for j in g[i]:
 				ind[j] += 1
-			ec += len(g[i])
 		b = [False for i in xrange(n)]
+		seq = []
 		while True:
 			i = 0
 			while i < n:
@@ -30,9 +28,10 @@ class Solution:
 				ind[j] -= 1
 			g[i] = set()
 			b[i] = True
+			seq.append(i)
 		i = 0
 		while i < n:
 		    if not b[i]:
-		        return False
+		        return []
 		    i += 1
-		return True
+		return seq
