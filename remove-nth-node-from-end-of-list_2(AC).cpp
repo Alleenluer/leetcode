@@ -1,4 +1,4 @@
-// 1CE, 2RE, 1AC, why such a hurry... could've 1ac'ed...
+// 1AC, easy
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -9,45 +9,33 @@
  */
 class Solution {
 public:
-    ListNode *removeNthFromEnd(ListNode *head, int n) {
-        ListNode *p1 = nullptr, *p2 = nullptr;
-        // 1CE here, missing declaration of $i
-        int i;
-        
-        if(nullptr == head) {
-            return nullptr;
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if (head == NULL) {
+            return NULL;
         }
         
-        p1 = head;
-        for(i = 0; i < n + 1; ++i) {
-            if(p1 == nullptr) {
-                break;
-            }else {
-                p1 = p1->next;
-            }
+        int len = 0;
+        ListNode *p = head;
+        while (p != NULL) {
+            p = p->next;
+            ++len;
         }
-        // 1RE here, i == n, not i == n - 1
-        if(i == n) {
-            // n == length of the list, valid
-            p1 = head;
+        if (len == n) {
+            p = head;
             head = head->next;
-            delete p1;
-            // 1RE here, forgot to return head;
-            return head;
-        }else if(i < n) {
-            // n > length of the list, invalid
-            return head;
-        }else {
-            // n < length of the list, valid
-            p2 = head;
-            while(p1 != nullptr && p2 != nullptr) {
-                p1 = p1->next;
-                p2 = p2->next;
-            }
-            p1 = p2->next;
-            p2->next = p1->next;
-            delete p1;
+            delete p;
             return head;
         }
+        
+        p = head;
+        int i;
+        for (i = 0; i < len - n - 1; ++i) {
+            p = p->next;
+        }
+        ListNode *q = p->next;
+        p->next = q->next;
+        delete q;
+        
+        return head;
     }
 };
