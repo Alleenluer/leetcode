@@ -1,30 +1,53 @@
-// 1CE 1AC
-// No compilation error again!!!!
+// O(n * log(n)) solution with O(n) space
+#include <algorithm>
+using namespace std;
+
+struct Term {
+    int val;
+    int i;
+};
+
+bool comp(const Term &x, const Term &y)
+{
+	return x.val < y.val;
+}
+
 class Solution {
 public:
-    vector<int> twoSum(vector<int> &numbers, int target) {
-        // IMPORTANT: Please reset any member data you declared, as
-        // the same Solution instance will be reused for each test case.
-		result.clear();
-		
-		int i, j, n;
-		
-		n = numbers.size();
-		for(i = 0; i < n; ++i){
-			for(j = i + 1; j < n; ++j){
-				if(numbers[i] + numbers[j] == target){
-					result.push_back(i + 1);
-					result.push_back(j + 1);
-					break;
-				}
-			}
-			if(j < n){
-				break;
-			}
-		}
-		
-		return result;
+    /*
+     * @param numbers : An array of Integer
+     * @param target : target = numbers[index1] + numbers[index2]
+     * @return : [index1+1, index2+1] (index1 < index2)
+     */
+    vector<int> twoSum(vector<int> &nums, int target) {
+        vector<int> &a = nums;
+        int n = a.size();
+        vector<Term> v(n);
+        
+        int i, j;
+        for (i = 0; i < n; ++i) {
+            v[i].val = a[i];
+            v[i].i = i + 1;
+        }
+        sort(v.begin(), v.end(), comp);
+        
+        vector<int> ans(2);
+        i = 0;
+        j = n - 1;
+        while (i < j) {
+            if (v[i].val + v[j].val < target) {
+                ++i;
+            } else if (v[i].val + v[j].val > target) {
+                --j;
+            } else {
+                ans[0] = v[i].i;
+                ans[1] = v[j].i;
+                if (ans[0] > ans[1]) {
+                    swap(ans[0], ans[1]);
+                }
+                break;
+            }
+        }
+        return ans;
     }
-private:
-	vector<int> result;
 };

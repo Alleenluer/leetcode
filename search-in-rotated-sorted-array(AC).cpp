@@ -1,36 +1,58 @@
-// 1AC, simple variation of binary search
 class Solution {
+    /** 
+     * param A : an integer ratated sorted array
+     * param target :  an integer to be searched
+     * return : an integer
+     */
 public:
-    int search(int A[], int n, int target) {
-        // Note: The Solution object is instantiated only once and is reused by each test case.
-        int offset;
-        
-        if(A == nullptr || n <= 0){
+    int search(vector<int> &A, int target) {
+        int n = A.size();
+        if (n == 0) {
             return -1;
         }
         
-        for(offset = 0; offset < n; ++offset){
-            if(A[offset] > A[(offset + 1) % n]){
+        int ll, rr, mm;
+        ll = 0;
+        rr = n - 1;
+        int k = findRotatePos(A);
+        while (ll <= rr) {
+            mm = (ll + rr) / 2;
+            if (target < A[(mm + k) % n]) {
+                rr = mm - 1;
+            } else if (target > A[(mm + k) % n]) {
+                ll = mm + 1;
+            } else {
+                return (mm + k) % n;
+            }
+        }
+        return -1;
+    }
+private:
+    int findRotatePos(vector<int> &A) {
+        int ll, rr, mm;
+        int n = A.size();
+        
+        if (n <= 1) {
+            return 0;
+        }
+        
+        ll = 0;
+        rr = n - 1;
+        while (rr - ll > 1) {
+            if (A[ll] < A[rr]) {
                 break;
             }
-        }
-        
-        int left, mid, right;
-        
-        offset = (offset + 1) % n;
-        left = offset;
-        right = n - 1 + offset;
-        while(left <= right){
-            mid = (left + right) / 2;
-            if(target < A[mid % n]){
-                right = mid - 1;
-            }else if(target > A[mid % n]){
-                left = mid + 1;
-            }else{
-                return mid % n;
+            if (A[ll] == A[rr]) {
+                --rr;
+                continue;
+            }
+            mm = (ll + rr) / 2;
+            if (A[mm] >= A[ll]) {
+                ll = mm;
+            } else {
+                rr = mm;
             }
         }
-        
-        return -1;
+        return A[ll] < A[rr] ? ll : rr;
     }
 };

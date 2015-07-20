@@ -1,67 +1,31 @@
-#include <algorithm>
+// The O(n) solution by hashing
+#include <unordered_map>
 using namespace std;
-
-vector<int> data;
-bool sort_comparator(const int &x, const int &y)
-{
-	return data[x] < data[y];
-}
 
 class Solution {
 public:
-    vector<int> twoSum(vector<int> &numbers, int target) {
-        // IMPORTANT: Please reset any member data you declared, as
-        // the same Solution instance will be reused for each test case.
-		result.clear();
-		index.clear();
-		data.clear();
-		data = numbers;
-		
-		int i, j, n;
-		
-		n = numbers.size();
-		if(n < 2){
-			return result;
-		}
-		for(i = 0; i < n; ++i){
-			index.push_back(i);
-		}
-		sort(index.begin(), index.end(), sort_comparator);
-		
-		int ll, rr, mm;
-		for(i = 0; i < n; ++i){
-			ll = i + 1;
-			rr = n - 1;
-			if(ll > rr || target - data[index[i]] < data[index[ll]] || target - data[index[i]] > data[index[rr]]){
-				continue;
-			}
-			while(ll <= rr){
-				mm = (ll + rr) / 2;
-				if(target - data[index[i]] < data[index[mm]]){
-					rr = mm - 1;
-				}else if(target - data[index[i]] > data[index[mm]]){
-					ll = mm + 1;
-				}else{
-					if(index[i] < index[mm]){
-						result.push_back(index[i] + 1);
-						result.push_back(index[mm] + 1);
-					}else{
-						result.push_back(index[mm] + 1);
-						result.push_back(index[i] + 1);
-					}
-					break;
-				}
-			}
-			if(ll <= rr){
-				break;
-			}
-		}
-		
-		index.clear();
-		data.clear();
-		return result;
+    /*
+     * @param numbers : An array of Integer
+     * @param target : target = numbers[index1] + numbers[index2]
+     * @return : [index1+1, index2+1] (index1 < index2)
+     */
+    vector<int> twoSum(vector<int> &nums, int target) {
+        vector<int> &a = nums;
+        vector<int> ans;
+        int n = a.size();
+        unordered_map<int, int> um;
+        unordered_map<int, int>::iterator it;
+        
+        int i;
+        for (i = 0; i < n; ++i) {
+            it = um.find(target - a[i]);
+            if (it != um.end()) {
+                ans.push_back(it->second + 1);
+                ans.push_back(i + 1);
+                break;
+            }
+            um[a[i]] = i;
+        }
+        return ans;
     }
-private:
-	vector<int> result;
-	vector<int> index;
 };

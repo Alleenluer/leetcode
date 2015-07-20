@@ -5,16 +5,23 @@ class Solution {
      * return : an integer
      */
 public:
-    int search(vector<int> &A, int target) {
+    bool search(vector<int> &A, int target) {
         int n = A.size();
         int ll, rr, mm;
         
         ll = 0;
         rr = n - 1;
         while (ll <= rr) {
+            if (A[ll] == target) {
+                return true;
+            }
+            if (A[ll] == A[rr]) {
+                ++ll;
+                continue;
+            }
             mm = ll + (rr - ll) / 2;
             if (A[mm] == target) {
-                return mm;
+                return true;
             }
             if (A[ll] < A[mm]) {
                 if (target >= A[ll] && target < A[mm]) {
@@ -33,6 +40,6 @@ public:
                 ++ll;
             }
         }
-        return -1;
+        return false;
     }
 };
